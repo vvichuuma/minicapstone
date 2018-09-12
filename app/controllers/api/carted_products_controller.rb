@@ -1,4 +1,4 @@
-class CartedProductsController < ApplicationController
+class Api::CartedProductsController < ApplicationController
 
   
   def index
@@ -47,13 +47,14 @@ class CartedProductsController < ApplicationController
 
 
 
-def delete
+def destroy
   
 
    @cartedproduct = CartedProduct.find_by(id:params[:id])
-   @cartedproduct.destroy
+   @cartedproduct.status = "Removed"
+   @cartedproduct.save
 
-   render json:{message:"THe Product has been removed"}
+   render json:{message:"The Product has been removed"}
 
 
 end

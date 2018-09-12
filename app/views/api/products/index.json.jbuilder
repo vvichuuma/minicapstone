@@ -6,7 +6,7 @@ json.array! @products.each do |product|
   json.description product.description
   json.supplier_id product.supplier_id
   json.supplier product.supplier
-  json.List_of_Images product.images
+  json.List_of_Images_url product.images[0]["url"]
   json.categories product.category_product
   
 end

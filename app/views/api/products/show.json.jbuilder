@@ -6,5 +6,5 @@
 #json.total @product.total
 
 
-
   json.partial! "partial.json.jbuilder",product: @product
+

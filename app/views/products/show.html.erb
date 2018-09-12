@@ -1,0 +1,27 @@
+
+<h1>Product_Info</h1>
+<h3>Product_name: <%= @product.name %></h3>
+
+<p><b>Product_price:</b><%= @product.price %></p>
+
+<p><b>Product_description:</b><%= @product.description %></p>
+
+<p><b>Prodcut_images:</b></p> 
+  
+   <% @product_i = @product.images.all %>
+
+   <% @product_i.each do |pros| %>
+
+     <p><img src = "<%= pros.url %>"</p>
+      <br><br><br>
+   <% end %>  
+
+
+ <br>
+
+ <a href = "/products">Back_to_Product_List</a> 
+
+
+ <a href="/products/<%= @product.id %>/edit">Edit_Product</a>
+
+ <a href="/products/<%= @product.id %>" data-method="delete">Destroy_product</a>

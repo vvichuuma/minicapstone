@@ -3,6 +3,22 @@ Rails.application.routes.draw do
 
   get "/products" => "products#index"
 
+  get "/products/new" => "products#new"
+
+   post "/products" => "products#create"
+
+  get "/products/:id" => "products#show"
+
+   get "/products/:id/edit" => "products#edit"
+
+  patch "/products/:id" => "products#update"
+
+  delete "/products/:id" => "products#destroy"
+
+
+ namespace :api do 
+  get "/products" => "products#index"
+
    get "/products/:id" => "products#show"
 
   patch "products/:id" => "products#update"
@@ -58,11 +74,11 @@ Rails.application.routes.draw do
 
  get "/cartedproducts" => "carted_products#index"
 
- delete "/cartedproducts/:id" => "carted_products#delete"
+ delete "/cartedproducts/:id" => "carted_products#destroy"
 
 
  delete "/orders/:id" => "orders#destroy"
 
-
-
+  
+ end 
 end

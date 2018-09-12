@@ -1,145 +1,76 @@
 class ProductsController < ApplicationController
+  
+  def index 
+    
+     @products = Product.all
 
-
-before_action :authenticate_admin, except: [:index, :show]
-
-
- def index
-   # @inn = params["id"]
-   # @display = Product.find_by(id:"#{@inn}")
-  #@products = Product.all
-
-  @products = Product.all
-  # @products = Product.where("name LIKE?","%outh%")
-search_name = params["q"]
-
-
-if search_name
-
-  @products = @products.where("name LIKE ?", "%#{search_name}%")
-
- end
-
- 
-    @products = @products.order(:price)
-
-
-  category_name = params[:category]
-
-  if category_name
-    @products = Category.find_by(name: category_name).products
+    render "index.html.erb"
 
   end
 
 
+  def new
+    render "new.html.erb"
+  end
 
 
+  def create
+    @product = Product.new(
+      name: params[:name],
+      price: params[:price],
+      description: params[:description],
+      supplier_id: params[:supplier_id]
+      
+    )
+    if @product.save
+       @image = Image.new(
+                    
+          url: params[:url],
+          product_id: @product.id
 
+        )
+       @image.save
 
-  render "index.json.jbuilder"
+    # render "show.html.erb"
+      redirect_to "/products/#{@product.id} "
+    else 
+      render json: @product.errors.full_messages
+    end
+  end
 
- end
-
-
-
-
- def create
-
-
-     
-     @name = params["name"]
-     @price = params["price"]
-   
-     @des = params["des"]
-
-
-
-    @product = Product.new(name:"#{@name}",price:"#{@price}",description:"#{@des}")
-     #product.save
-        if @product.save
-          render "show.json.jbuilder"
-        else
-          render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
-        end
-
-
-   render "show.json.jbuilder"
-
- end
-
-  def segment
-   @inn = params["this_variable"]
-   @display = Product.find_by(id:"#{@inn}")
-  @pro = Product.all
-  render "pro.json.jbuilder"
-
- end
 
 
   def show
-     
-     @id = params["id"]
-    @product = Product.find_by(id:"#{@id}")
-
-    render "show.json.jbuilder"
-
+    @product = Product.find_by(id: params[:id])
+    render "show.html.erb"
   end
 
 
-  def update
-   @id = params["id"]
-    @product = Product.find_by(id:"#{@id}")   
 
-   @product.name = params["name"] || @product.name
+  def edit 
+   @product = Product.find_by(id: params[:id])
 
-
-   @product.price = params["price"] || @product.price
+     render "edit.html.erb"
 
 
-   @product.description = params["desc"] || @product.description
+  end 
 
-   @product.save
-
-      if @product.save
-          render "show.json.jbuilder"
-      else
-          render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
-      end
-
-
-    render "show.json.jbuilder"
-  
+ def update 
+     @product = Product.find_by(id: params[:id])
+    @product.name = params[:name]
+    @product.price = params[:price]
+    @product.description = params[:description]
+    @product.supplier_id = params[:supplier_id]
+    @product.save
+    redirect_to "/products/#{@product.id}"
   end
+      
 
-
- def acoustic
-   @acous = Product.first
-
-   render "acoustic.json.jbuilder"
-
- end
-
-
-  def electric
-   @elec = Product.second
-
-   render "electric.json.jbuilder"
-
- end
-
- #Product.find_by(id: 4)
-
-
-  def bass
-   @bas = Product.last
-
-   render "bass.json.jbuilder"
-
- end
-
-
-
-
+  def destroy
+    @product = Product.find_by(id: params[:id])
+    @product.destroy
+    redirect_to "/products"
+  end
 
 
 

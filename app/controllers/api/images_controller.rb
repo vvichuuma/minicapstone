@@ -1,4 +1,4 @@
-class ImagesController < ApplicationController
+class Api::ImagesController < ApplicationController
 
 
 

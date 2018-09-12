@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class Api::SessionsController < ApplicationController
  def create
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       )
       render json: {jwt: jwt, email: user.email}, status: :created
     else
-      render json: {unauthorized:"can't login"}
+      render json: {unauthorized:"can't login"}, status: :unauthorized
     end
   end
 
